@@ -3,12 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Калькулятор доставки МСК-Клиент</title>
+<title>Калькулятор доставки — Cosmorelax</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
     --bg: #f7f6f3;
     --surface: #ffffff;
@@ -17,338 +15,64 @@
     --accent-light: #e8f0e8;
     --text: #1a1a1a;
     --muted: #6b6660;
-    --yellow: #fef08a;
-    --yellow-border: #ca8a04;
     --result-bg: #1a2e1a;
     --result-text: #e8f0e8;
   }
-
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    padding: 24px 16px;
-  }
-
-  .container {
-    max-width: 640px;
-    margin: 0 auto;
-  }
-
-  header {
-    text-align: center;
-    margin-bottom: 28px;
-  }
-
-  header h1 {
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--accent);
-    letter-spacing: -0.3px;
-  }
-
-  header p {
-    font-size: 13px;
-    color: var(--muted);
-    margin-top: 4px;
-  }
-
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 24px;
-    margin-bottom: 16px;
-  }
-
-  .card-title {
-    font-size: 13px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    color: var(--muted);
-    margin-bottom: 16px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .field {
-    margin-bottom: 16px;
-  }
-
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 24px 16px; }
+  .container { max-width: 640px; margin: 0 auto; }
+  header { text-align: center; margin-bottom: 24px; }
+  header h1 { font-size: 22px; font-weight: 700; color: var(--accent); letter-spacing: -0.3px; }
+  header p { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 14px; }
+  .card-title { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.7px; color: var(--muted); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  .field { margin-bottom: 14px; }
   .field:last-child { margin-bottom: 0; }
-
-  label {
-    display: block;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text);
-    margin-bottom: 6px;
-  }
-
-  label span {
-    color: var(--muted);
-    font-weight: 400;
-    font-size: 12px;
-    margin-left: 4px;
-  }
-
-  input[type="number"], select {
-    width: 100%;
-    height: 44px;
-    padding: 0 14px;
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 15px;
-    color: var(--text);
-    background: var(--surface);
-    transition: border-color 0.15s;
-    -moz-appearance: textfield;
-    appearance: none;
-  }
-
-  input[type="number"]::-webkit-inner-spin-button,
-  input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
-
-  input[type="number"]:focus, select:focus {
-    outline: none;
-    border-color: var(--accent);
-  }
-
-  .row-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-
-  .toggle-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
-  }
-
+  label { display: block; font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 6px; }
+  label span { color: var(--muted); font-weight: 400; font-size: 12px; margin-left: 4px; }
+  input[type="number"], select { width: 100%; height: 44px; padding: 0 14px; border: 1.5px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 15px; color: var(--text); background: var(--surface); transition: border-color 0.15s; -moz-appearance: textfield; appearance: none; }
+  input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+  input[type="number"]:focus, select:focus { outline: none; border-color: var(--accent); }
+  .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); }
   .toggle-row:last-child { border-bottom: none; padding-bottom: 0; }
   .toggle-row:first-child { padding-top: 0; }
-
-  .toggle-label {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text);
-  }
-
-  .toggle-label small {
-    display: block;
-    font-size: 12px;
-    color: var(--muted);
-    font-weight: 400;
-    margin-top: 2px;
-  }
-
-  .toggle {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .switch {
-    position: relative;
-    width: 44px;
-    height: 24px;
-    flex-shrink: 0;
-  }
-
+  .toggle-label { font-size: 14px; font-weight: 500; color: var(--text); }
+  .toggle-label small { display: block; font-size: 12px; color: var(--muted); font-weight: 400; margin-top: 2px; }
+  .switch { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
   .switch input { opacity: 0; width: 0; height: 0; position: absolute; }
-
-  .slider {
-    position: absolute;
-    inset: 0;
-    background: var(--border);
-    border-radius: 24px;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-
-  .slider::before {
-    content: '';
-    position: absolute;
-    width: 18px;
-    height: 18px;
-    left: 3px;
-    top: 3px;
-    background: white;
-    border-radius: 50%;
-    transition: transform 0.2s;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-  }
-
+  .slider { position: absolute; inset: 0; background: var(--border); border-radius: 24px; cursor: pointer; transition: background 0.2s; }
+  .slider::before { content: ''; position: absolute; width: 18px; height: 18px; left: 3px; top: 3px; background: white; border-radius: 50%; transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
   .switch input:checked + .slider { background: var(--accent); }
   .switch input:checked + .slider::before { transform: translateX(20px); }
-
-  .sub-field {
-    padding: 12px 14px;
-    background: var(--accent-light);
-    border-radius: 8px;
-    margin-top: 8px;
-    display: none;
-  }
-
+  .sub-field { padding: 12px 14px; background: var(--accent-light); border-radius: 8px; margin-top: 8px; display: none; }
   .sub-field.visible { display: block; }
-
-  .sub-field label {
-    font-size: 12px;
-    margin-bottom: 6px;
-    color: var(--accent);
-  }
-
-  .sub-field input, .sub-field select {
-    height: 38px;
-    font-size: 14px;
-  }
-
+  .sub-field label { font-size: 12px; margin-bottom: 6px; color: var(--accent); }
+  .sub-field input, .sub-field select { height: 38px; font-size: 14px; }
+  .sub-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .tip { background: #fef9e7; border: 1px solid #f0c040; border-radius: 8px; padding: 10px 14px; font-size: 12px; color: #7a5c00; margin-bottom: 14px; }
   /* Result */
-  .result-card {
-    background: var(--result-bg);
-    border-radius: 12px;
-    padding: 24px;
-    margin-bottom: 16px;
-  }
-
-  .result-card .card-title {
-    color: #7aad7a;
-    border-bottom-color: #2e4d2e;
-    margin-bottom: 14px;
-  }
-
-  .line-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    padding: 6px 0;
-    border-bottom: 1px solid #2e4d2e;
-    font-size: 13px;
-    color: #b0c8b0;
-  }
-
+  .result-card { background: var(--result-bg); border-radius: 12px; padding: 20px; margin-bottom: 14px; }
+  .result-card .card-title { color: #7aad7a; border-bottom-color: #2e4d2e; margin-bottom: 14px; }
+  .line-item { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 0; border-bottom: 1px solid #2e4d2e; font-size: 13px; }
   .line-item:last-of-type { border-bottom: none; }
-
   .line-item .name { color: #b0c8b0; }
   .line-item .price { font-weight: 600; color: var(--result-text); }
-
-  .total-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px solid #4a7a4a;
-  }
-
-  .total-label {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--result-text);
-  }
-
-  .total-amount {
-    font-size: 28px;
-    font-weight: 700;
-    color: #7adb7a;
-  }
-
-  .empty-state {
-    text-align: center;
-    padding: 20px 0;
-    color: #4a6e4a;
-    font-size: 14px;
-  }
-
-  .tip {
-    background: var(--yellow);
-    border: 1px solid var(--yellow-border);
-    border-radius: 8px;
-    padding: 10px 14px;
-    font-size: 12px;
-    color: #713f12;
-    margin-bottom: 16px;
-  }
-
-  .btn-reset {
-    width: 100%;
-    height: 44px;
-    background: transparent;
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 14px;
-    color: var(--muted);
-    cursor: pointer;
-    transition: border-color 0.15s, color 0.15s;
-  }
-
-  .btn-reset:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-
-  /* Tariff reference */
-  details {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    margin-bottom: 16px;
-    overflow: hidden;
-  }
-
-  summary {
-    padding: 16px 20px;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    list-style: none;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    user-select: none;
-  }
-
-  summary::after {
-    content: '▾';
-    font-size: 16px;
-    transition: transform 0.2s;
-  }
-
+  .total-row { display: flex; justify-content: space-between; align-items: baseline; margin-top: 12px; padding-top: 12px; border-top: 1px solid #4a7a4a; }
+  .total-label { font-size: 14px; font-weight: 600; color: var(--result-text); }
+  .total-amount { font-size: 28px; font-weight: 700; color: #7adb7a; }
+  .empty-state { text-align: center; padding: 16px 0; color: #4a6e4a; font-size: 14px; }
+  .btn-reset { width: 100%; height: 44px; background: transparent; border: 1.5px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 14px; color: var(--muted); cursor: pointer; transition: border-color 0.15s, color 0.15s; }
+  .btn-reset:hover { border-color: var(--accent); color: var(--accent); }
+  details { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 14px; overflow: hidden; }
+  summary { padding: 14px 18px; cursor: pointer; font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; list-style: none; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+  summary::after { content: '▾'; font-size: 16px; transition: transform 0.2s; }
   details[open] summary::after { transform: rotate(180deg); }
-
-  .tariff-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 12.5px;
-  }
-
-  .tariff-table th {
-    background: var(--bg);
-    padding: 8px 12px;
-    text-align: left;
-    font-weight: 600;
-    color: var(--muted);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .tariff-table td {
-    padding: 8px 12px;
-    border-bottom: 1px solid var(--border);
-    color: var(--text);
-  }
-
+  .tariff-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .tariff-table th { background: var(--bg); padding: 8px 12px; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 1px solid var(--border); }
+  .tariff-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); color: var(--text); }
   .tariff-table tr:last-child td { border-bottom: none; }
   .tariff-table .price-cell { font-weight: 600; color: var(--accent); }
+  .free-tag { color: #2c5f2e; font-weight: 600; }
 </style>
 </head>
 <body>
@@ -356,17 +80,15 @@
 
   <header>
     <h1>Калькулятор доставки</h1>
-    <p>МСК — Клиент · Cosmorelax</p>
+    <p>Cosmorelax · Москва и МО</p>
   </header>
 
   <div class="tip">
-    💡 Минимальный заказ — 0,5 м³. Заполните параметры заказа, итог рассчитается автоматически.
+    💡 До 25 кг — подъём бесплатно. Свыше 16 м³ — расчёт у менеджера логистики.
   </div>
 
-  <!-- Input card -->
   <div class="card">
     <div class="card-title">Параметры заказа</div>
-
     <div class="row-2">
       <div class="field">
         <label>Объём <span>м³</span></label>
@@ -377,38 +99,32 @@
         <input type="number" id="weight" min="0" step="1" placeholder="0" oninput="calculate()">
       </div>
     </div>
-
     <div class="field">
       <label>Км за МКАД <span>(0 = в пределах)</span></label>
       <input type="number" id="mkad" min="0" step="1" placeholder="0" oninput="calculate()">
     </div>
   </div>
 
-  <!-- Services card -->
   <div class="card">
-    <div class="card-title">Дополнительные услуги</div>
+    <div class="card-title">Подъём и пронос</div>
 
     <!-- Lift -->
     <div class="toggle-row">
       <div class="toggle-label">
         Подъём на лифте
-        <small>300 ₽ за каждые 25 кг за подъём</small>
+        <small>До 25 кг — бесплатно · свыше 300 ₽/25 кг за подъём</small>
       </div>
       <label class="switch">
-        <input type="checkbox" id="useLift" onchange="toggleSub('liftSub', this); calculate()">
+        <input type="checkbox" id="useLift" onchange="calculate()">
         <span class="slider"></span>
       </label>
-    </div>
-    <div class="sub-field" id="liftSub">
-      <label>Количество подъёмов (этажей)</label>
-      <input type="number" id="liftFloors" min="1" step="1" placeholder="1" oninput="calculate()">
     </div>
 
     <!-- Manual -->
     <div class="toggle-row">
       <div class="toggle-label">
         Ручной подъём
-        <small>300 ₽ за 1 этаж / 25 кг</small>
+        <small>До 25 кг — бесплатно · свыше 300 ₽ за 1 этаж / 25 кг</small>
       </div>
       <label class="switch">
         <input type="checkbox" id="useManual" onchange="toggleSub('manualSub', this); calculate()">
@@ -420,11 +136,40 @@
       <input type="number" id="manualFloor" min="1" step="1" placeholder="2" oninput="calculate()">
     </div>
 
-    <!-- Assembly -->
+    <!-- Pронос -->
     <div class="toggle-row">
       <div class="toggle-label">
+        Пронос
+        <small>Если машина не подъезжает · 15 м = 1 этаж подъёма</small>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="usePronos" onchange="toggleSub('pronosSub', this); calculate()">
+        <span class="slider"></span>
+      </label>
+    </div>
+    <div class="sub-field" id="pronosSub">
+      <div class="sub-row">
+        <div>
+          <label>Расстояние, м</label>
+          <input type="number" id="pronosMeters" min="0" step="1" placeholder="25" oninput="calculate()">
+        </div>
+        <div>
+          <label>Этаж (если есть)</label>
+          <input type="number" id="pronosFloor" min="0" step="1" placeholder="0" oninput="calculate()">
+        </div>
+      </div>
+      <div style="margin-top:8px; font-size:11px; color:#4a7a4a;">
+        Формула: (метры ÷ 15) × (вес ÷ 25) × 300 ₽
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Сборка</div>
+    <div class="toggle-row" style="padding-top:0; padding-bottom:0; border:none;">
+      <div class="toggle-label">
         Сборка мебели
-        <small>Мягкая/столы/стулья — 500 ₽; Корпусная — 5% от розницы</small>
+        <small>Мягкая/столы/стулья — мин. 500 ₽ · Корпусная — 5% от розницы</small>
       </div>
       <label class="switch">
         <input type="checkbox" id="useAssembly" onchange="toggleSub('assemblySub', this); calculate()">
@@ -434,12 +179,12 @@
     <div class="sub-field" id="assemblySub">
       <div class="field">
         <label>Тип сборки</label>
-        <select id="assemblyType" onchange="toggleAssemblyPrice(); calculate()">
-          <option value="soft">Мягкая мебель, столы, стулья — 500 ₽</option>
-          <option value="corpus">Корпусная мебель — 5% от розницы</option>
+        <select id="assemblyType" onchange="toggleCorpusField(); calculate()">
+          <option value="soft">Мягкая мебель, столы, стулья — от 500 ₽</option>
+          <option value="corpus">Корпусная мебель — 5% от розничной цены</option>
         </select>
       </div>
-      <div class="sub-field visible" id="corpusPrice" style="display:none; margin-top:8px;">
+      <div id="corpusField" style="display:none; margin-top:8px;">
         <label>Розничная стоимость товара, ₽</label>
         <input type="number" id="retailPrice" min="0" step="100" placeholder="0" oninput="calculate()">
       </div>
@@ -448,7 +193,7 @@
 
   <!-- Result -->
   <div class="result-card">
-    <div class="card-title">Расчёт доставки</div>
+    <div class="card-title">Расчёт</div>
     <div id="breakdown">
       <div class="empty-state">Введите объём заказа</div>
     </div>
@@ -456,7 +201,6 @@
 
   <button class="btn-reset" onclick="resetForm()">Сбросить</button>
 
-  <!-- Tariff reference -->
   <details>
     <summary>Тарифная таблица</summary>
     <table class="tariff-table">
@@ -466,10 +210,14 @@
       <tr><td>Доставка 3–6 м³</td><td class="price-cell">5 500 ₽</td></tr>
       <tr><td>Доставка 6–10 м³</td><td class="price-cell">10 500 ₽</td></tr>
       <tr><td>Доставка 10–16 м³</td><td class="price-cell">15 000 ₽</td></tr>
-      <tr><td>За пределы МКАД, за 1 км</td><td class="price-cell">80 ₽</td></tr>
-      <tr><td>Подъём на лифте (за 25 кг / подъём)</td><td class="price-cell">300 ₽</td></tr>
-      <tr><td>Ручной подъём (за 1 этаж / 25 кг)</td><td class="price-cell">300 ₽</td></tr>
-      <tr><td>Сборка: мягкая мебель, столы, стулья</td><td class="price-cell">500 ₽</td></tr>
+      <tr><td>Свыше 16 м³</td><td class="price-cell">По запросу</td></tr>
+      <tr><td>За МКАД, за 1 км</td><td class="price-cell">+ 80 ₽/км</td></tr>
+      <tr><td>Подъём на лифте — до 25 кг</td><td class="free-tag">Бесплатно</td></tr>
+      <tr><td>Подъём на лифте — свыше 25 кг</td><td class="price-cell">300 ₽ / 25 кг / подъём</td></tr>
+      <tr><td>Ручной подъём — до 25 кг</td><td class="free-tag">Бесплатно</td></tr>
+      <tr><td>Ручной подъём — свыше 25 кг</td><td class="price-cell">300 ₽ / этаж / 25 кг</td></tr>
+      <tr><td>Пронос (нет подъезда)</td><td class="price-cell">15 м = 1 этаж подъёма</td></tr>
+      <tr><td>Сборка: мягкая, столы, стулья</td><td class="price-cell">от 500 ₽</td></tr>
       <tr><td>Сборка: корпусная мебель</td><td class="price-cell">5% от розницы</td></tr>
     </table>
   </details>
@@ -480,101 +228,127 @@
 function toggleSub(id, checkbox) {
   document.getElementById(id).classList.toggle('visible', checkbox.checked);
 }
-
-function toggleAssemblyPrice() {
-  const type = document.getElementById('assemblyType').value;
-  const el = document.getElementById('corpusPrice');
-  el.style.display = type === 'corpus' ? 'block' : 'none';
+function toggleCorpusField() {
+  const t = document.getElementById('assemblyType').value;
+  document.getElementById('corpusField').style.display = t === 'corpus' ? 'block' : 'none';
 }
-
 function getDeliveryBase(vol) {
   if (vol <= 0) return 0;
-  if (vol < 0.5) return 1500;
-  if (vol < 3)   return 3500;
-  if (vol < 6)   return 5500;
-  if (vol < 10)  return 10500;
-  return 15000;
+  if (vol <= 0.5) return 1500;
+  if (vol <= 3)   return 3500;
+  if (vol <= 6)   return 5500;
+  if (vol <= 10)  return 10500;
+  if (vol <= 16)  return 15000;
+  return -1; // по запросу
 }
-
-function fmt(n) {
-  return n.toLocaleString('ru-RU') + ' ₽';
-}
+function fmt(n) { return n.toLocaleString('ru-RU') + ' ₽'; }
 
 function calculate() {
-  const volume   = parseFloat(document.getElementById('volume').value) || 0;
-  const weight   = parseFloat(document.getElementById('weight').value) || 0;
-  const mkad     = parseFloat(document.getElementById('mkad').value) || 0;
-  const useLift  = document.getElementById('useLift').checked;
-  const useManual= document.getElementById('useManual').checked;
-  const useAssem = document.getElementById('useAssembly').checked;
+  const volume  = parseFloat(document.getElementById('volume').value) || 0;
+  const weight  = parseFloat(document.getElementById('weight').value) || 0;
+  const mkad    = parseFloat(document.getElementById('mkad').value) || 0;
+  const useLift = document.getElementById('useLift').checked;
+  const useManu = document.getElementById('useManual').checked;
+  const usePron = document.getElementById('usePronos').checked;
+  const useAsm  = document.getElementById('useAssembly').checked;
 
   if (volume <= 0) {
     document.getElementById('breakdown').innerHTML = '<div class="empty-state">Введите объём заказа</div>';
     return;
   }
 
+  if (volume > 16) {
+    document.getElementById('breakdown').innerHTML = '<div class="empty-state">Свыше 16 м³ — расчёт у менеджера логистики</div>';
+    return;
+  }
+
   const lines = [];
   let total = 0;
 
-  // Base delivery
+  // Base
   const base = getDeliveryBase(volume);
   lines.push({ name: `Доставка (${volume} м³)`, price: base });
   total += base;
 
-  // MKAD surcharge
+  // MKAD
   if (mkad > 0) {
     const mkadCost = Math.round(mkad) * 80;
     lines.push({ name: `За МКАД (${Math.round(mkad)} км × 80 ₽)`, price: mkadCost });
     total += mkadCost;
   }
 
-  // Lift
-  if (useLift && weight > 0) {
-    const floors = parseInt(document.getElementById('liftFloors').value) || 1;
-    const units  = Math.ceil(weight / 25);
-    const liftCost = units * floors * 300;
-    lines.push({ name: `Подъём на лифте (${units} × ${floors} эт × 300 ₽)`, price: liftCost });
-    total += liftCost;
-  } else if (useLift) {
-    lines.push({ name: 'Подъём на лифте (укажите вес)', price: 0, note: true });
+  // Lift: (вес ÷ 25) × 300 ₽ — этажи не влияют
+  if (useLift) {
+    if (weight <= 25) {
+      lines.push({ name: 'Подъём на лифте', price: 0, free: true });
+    } else {
+      const weightCoef = weight / 25;
+      const cost = Math.round(weightCoef * 300);
+      lines.push({ name: `Подъём на лифте (${weight}÷25=${weightCoef.toFixed(2)} × 300 ₽)`, price: cost });
+      total += cost;
+    }
   }
 
-  // Manual lift
-  if (useManual && weight > 0) {
-    const floor  = parseInt(document.getElementById('manualFloor').value) || 1;
-    const units  = Math.ceil(weight / 25);
-    const manCost = units * floor * 300;
-    lines.push({ name: `Ручной подъём (${units} × ${floor} эт × 300 ₽)`, price: manCost });
-    total += manCost;
-  } else if (useManual) {
-    lines.push({ name: 'Ручной подъём (укажите вес)', price: 0, note: true });
+  // Manual: (вес ÷ 25) × этаж × 300 ₽
+  if (useManu) {
+    if (weight <= 25) {
+      lines.push({ name: 'Ручной подъём', price: 0, free: true });
+    } else {
+      const floor = parseInt(document.getElementById('manualFloor').value) || 1;
+      const weightCoef = weight / 25;
+      const cost = Math.round(weightCoef * floor * 300);
+      lines.push({ name: `Ручной подъём (${weight}÷25=${weightCoef.toFixed(2)} × ${floor} эт × 300 ₽)`, price: cost });
+      total += cost;
+    }
+  }
+
+  // Пронос
+  if (usePron) {
+    const meters = parseFloat(document.getElementById('pronosMeters').value) || 0;
+    const pFloor = parseFloat(document.getElementById('pronosFloor').value) || 0;
+    if (meters > 0 && weight > 25) {
+      const distCoef = meters / 15;
+      const weightCoef = weight / 25;
+      const cost = Math.round(distCoef * weightCoef * 300);
+      lines.push({ name: `Пронос ${meters}м · ${weight}кг (${meters}/15 × ${weight}/25 × 300)`, price: cost });
+      total += cost;
+      if (pFloor > 0) {
+        const units = Math.ceil(weight / 25);
+        const floorCost = units * pFloor * 300;
+        lines.push({ name: `+ Подъём при проносе (${units} × ${pFloor} эт × 300 ₽)`, price: floorCost });
+        total += floorCost;
+      }
+    } else if (meters > 0 && weight <= 25) {
+      lines.push({ name: `Пронос ${meters}м (вес до 25 кг)`, price: 0, free: true });
+    } else {
+      lines.push({ name: 'Пронос — укажите расстояние', price: 0, note: true });
+    }
   }
 
   // Assembly
-  if (useAssem) {
+  if (useAsm) {
     const type = document.getElementById('assemblyType').value;
     if (type === 'soft') {
       lines.push({ name: 'Сборка (мягкая/столы/стулья)', price: 500 });
       total += 500;
     } else {
       const retail = parseFloat(document.getElementById('retailPrice').value) || 0;
-      const asmCost = Math.round(retail * 0.05);
-      lines.push({ name: `Сборка корпусной мебели (5% от ${fmt(retail)})`, price: asmCost });
-      total += asmCost;
+      const cost = Math.max(500, Math.round(retail * 0.05));
+      lines.push({ name: `Сборка корпусной (5% от ${fmt(retail)}, мин. 500 ₽)`, price: cost });
+      total += cost;
     }
   }
 
-  // Render
   let html = lines.map(l => `
     <div class="line-item">
       <span class="name">${l.name}</span>
-      <span class="price">${l.note ? '—' : fmt(l.price)}</span>
+      <span class="price">${l.free ? '<span class="free-tag">Бесплатно</span>' : l.note ? '—' : fmt(l.price)}</span>
     </div>
   `).join('');
 
   html += `
     <div class="total-row">
-      <span class="total-label">Итого с услугами</span>
+      <span class="total-label">Итого</span>
       <span class="total-amount">${fmt(total)}</span>
     </div>
   `;
@@ -583,17 +357,16 @@ function calculate() {
 }
 
 function resetForm() {
-  ['volume','weight','mkad','liftFloors','manualFloor','retailPrice'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.value = '';
+  ['volume','weight','mkad','liftFloors','manualFloor','pronosMeters','pronosFloor','retailPrice'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
   });
-  ['useLift','useManual','useAssembly'].forEach(id => {
+  ['useLift','useManual','usePronos','useAssembly'].forEach(id => {
     document.getElementById(id).checked = false;
   });
-  ['liftSub','manualSub','assemblySub'].forEach(id => {
+  ['liftSub','manualSub','pronosSub','assemblySub'].forEach(id => {
     document.getElementById(id).classList.remove('visible');
   });
-  document.getElementById('corpusPrice').style.display = 'none';
+  document.getElementById('corpusField').style.display = 'none';
   document.getElementById('breakdown').innerHTML = '<div class="empty-state">Введите объём заказа</div>';
 }
 </script>
