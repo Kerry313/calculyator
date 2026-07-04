@@ -45,27 +45,23 @@
   .sub-field input, .sub-field select { height: 38px; font-size: 14px; }
   .sub-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .tip { background: #fef9e7; border: 1px solid #f0c040; border-radius: 8px; padding: 10px 14px; font-size: 12px; color: #7a5c00; margin-bottom: 14px; }
-
-  /* Result */
   .result-card { background: var(--result-bg); border-radius: 12px; padding: 20px; margin-bottom: 14px; }
   .result-card .card-title { color: #7aad7a; border-bottom-color: #2e4d2e; margin-bottom: 14px; }
   .line-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid #2e4d2e; gap: 12px; }
   .line-item:last-of-type { border-bottom: none; }
   .line-left { flex: 1; }
   .line-right { text-align: right; flex-shrink: 0; }
-  .name { font-size: 13px; color: #b0c8b0; display: block; }
+  .iname { font-size: 13px; color: #b0c8b0; display: block; }
   .formula { font-size: 11px; color: #6a9a6a; margin-top: 2px; display: block; font-family: monospace; }
-  .coef-badge { display: inline-block; background: #2e5c1a; color: #a8e6a8; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-bottom: 3px; letter-spacing: 0.3px; }
-  .price { font-size: 13px; font-weight: 600; color: var(--result-text); display: block; }
-  .free-tag { color: #7adb7a; font-weight: 600; font-size: 13px; }
+  .coef-badge { display: inline-block; background: #2e5c1a; color: #a8e6a8; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-bottom: 3px; }
+  .iprice { font-size: 13px; font-weight: 600; color: var(--result-text); display: block; }
+  .free-tag { color: #7adb7a; font-weight: 600; }
   .total-row { display: flex; justify-content: space-between; align-items: baseline; margin-top: 12px; padding-top: 12px; border-top: 1px solid #4a7a4a; }
   .total-label { font-size: 14px; font-weight: 600; color: var(--result-text); }
   .total-amount { font-size: 28px; font-weight: 700; color: #7adb7a; }
   .empty-state { text-align: center; padding: 16px 0; color: #4a6e4a; font-size: 14px; }
-
-  .btn-reset { width: 100%; height: 44px; background: transparent; border: 1.5px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 14px; color: var(--muted); cursor: pointer; margin-bottom: 14px; transition: border-color .15s, color .15s; }
+  .btn-reset { width: 100%; height: 44px; background: transparent; border: 1.5px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 14px; color: var(--muted); cursor: pointer; margin-bottom: 14px; }
   .btn-reset:hover { border-color: var(--accent); color: var(--accent); }
-
   details { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 14px; overflow: hidden; }
   summary { padding: 14px 18px; cursor: pointer; font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; list-style: none; display: flex; justify-content: space-between; user-select: none; }
   summary::after { content: '▾'; font-size: 16px; transition: transform .2s; }
@@ -80,13 +76,12 @@
 </head>
 <body>
 <div class="container">
-
   <header>
     <h1>Калькулятор доставки</h1>
     <p>Cosmorelax · Москва и МО</p>
   </header>
 
-  <div class="tip">💡 До 25 кг — подъём бесплатно. Коэффициент для 1С показывается автоматически.</div>
+  <div class="tip">💡 Коэффициент для 1С показывается автоматически по каждой услуге. До 25 кг — подъём бесплатно.</div>
 
   <div class="card">
     <div class="card-title">Параметры заказа</div>
@@ -108,7 +103,6 @@
 
   <div class="card">
     <div class="card-title">Подъём и пронос</div>
-
     <div class="toggle-row">
       <div class="toggle-label">
         Подъём на лифте
@@ -119,7 +113,6 @@
         <span class="slider"></span>
       </label>
     </div>
-
     <div class="toggle-row">
       <div class="toggle-label">
         Ручной подъём
@@ -134,7 +127,6 @@
       <label>Этаж</label>
       <input type="number" id="manualFloor" min="1" step="1" placeholder="2" oninput="calculate()">
     </div>
-
     <div class="toggle-row">
       <div class="toggle-label">
         Пронос
@@ -213,19 +205,18 @@
       <tr><td>Сборка корпусная</td><td class="pc">5% от розницы</td></tr>
     </table>
   </details>
-
 </div>
+
 <script>
 function toggleSub(id, cb) { document.getElementById(id).classList.toggle('visible', cb.checked); }
 function toggleCorpus() {
   document.getElementById('corpusField').style.display =
     document.getElementById('assemblyType').value === 'corpus' ? 'block' : 'none';
 }
-function fmt(n) { return n.toLocaleString('ru-RU') + ' ₽'; }
-function fmtC(n) { return parseFloat(n.toFixed(2)); }
+function fmt(n) { return n.toLocaleString('ru-RU') + ' \u20bd'; }
+function fc(n) { return parseFloat(n.toFixed(3)); }
 
 function getBase(v) {
-  if (v <= 0)  return 0;
   if (v <= 0.5) return 1500;
   if (v <= 3)   return 3500;
   if (v <= 6)   return 5500;
@@ -234,18 +225,16 @@ function getBase(v) {
   return -1;
 }
 
-function lineHtml(name, formula, coef, price, free, note) {
-  return `
-    <div class="line-item">
-      <div class="line-left">
-        <span class="name">${name}</span>
-        ${formula ? `<span class="formula">${formula}</span>` : ''}
-      </div>
-      <div class="line-right">
-        ${coef !== null ? `<span class="coef-badge">1С: ${coef}</span>` : ''}
-        <span class="price">${free ? '<span class="free-tag">Бесплатно</span>' : note ? '—' : fmt(price)}</span>
-      </div>
-    </div>`;
+function row(name, formula, coef, price, free, note) {
+  return '<div class="line-item">'
+    + '<div class="line-left">'
+    + '<span class="iname">' + name + '</span>'
+    + (formula ? '<span class="formula">' + formula + '</span>' : '')
+    + '</div>'
+    + '<div class="line-right">'
+    + (coef !== null ? '<span class="coef-badge">1\u0421: ' + coef + '</span>' : '')
+    + '<span class="iprice">' + (free ? '<span class="free-tag">\u0411\u0435\u0441\u043f\u043b\u0430\u0442\u043d\u043e</span>' : note ? '\u2014' : fmt(price)) + '</span>'
+    + '</div></div>';
 }
 
 function calculate() {
@@ -257,68 +246,73 @@ function calculate() {
   const usePron = document.getElementById('usePronos').checked;
   const useAsm  = document.getElementById('useAssembly').checked;
 
-  if (volume <= 0) { document.getElementById('breakdown').innerHTML = '<div class="empty-state">Введите объём заказа</div>'; return; }
-  if (volume > 16) { document.getElementById('breakdown').innerHTML = '<div class="empty-state">Свыше 16 м³ — расчёт у менеджера логистики</div>'; return; }
+  if (volume <= 0) { document.getElementById('breakdown').innerHTML = '<div class="empty-state">\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u043e\u0431\u044a\u0451\u043c \u0437\u0430\u043a\u0430\u0437\u0430</div>'; return; }
+  if (volume > 16) { document.getElementById('breakdown').innerHTML = '<div class="empty-state">\u0421\u0432\u044b\u0448\u0435 16 \u043c\u00b3 \u2014 \u0440\u0430\u0441\u0447\u0451\u0442 \u0443 \u043c\u0435\u043d\u0435\u0434\u0436\u0435\u0440\u0430 \u043b\u043e\u0433\u0438\u0441\u0442\u0438\u043a\u0438</div>'; return; }
 
   let html = '';
   let total = 0;
+
+  // Доставка: коэф для 1С = сумма / 1500
   const base = getBase(volume);
-  html += lineHtml(`Доставка (${volume} м³)`, '', null, base, false, false);
+  const dCoef = fc(base / 1500);
+  html += row('Доставка (' + volume + ' м\u00b3)', fmt(base) + ' \u00f7 1500 = ' + dCoef, dCoef, base, false, false);
   total += base;
 
+  // МКАД: коэф = кол-во км
   if (mkad > 0) {
-    const c = Math.round(mkad) * 80;
-    html += lineHtml(`За МКАД (${Math.round(mkad)} км × 80 ₽)`, '', null, c, false, false);
-    total += c;
+    const km = Math.round(mkad);
+    const mkadCost = km * 80;
+    html += row('За МКАД (' + km + ' км \u00d7 80 \u20bd)', 'коэф = ' + km + ' км', km, mkadCost, false, false);
+    total += mkadCost;
   }
 
-  // Лифт: коэф = вес ÷ 25
+  // Лифт: коэф = вес / 25
   if (useLift) {
     if (weight <= 25) {
-      html += lineHtml('Подъём на лифте', 'вес ≤ 25 кг', null, 0, true, false);
+      html += row('Погрузо-разгрузочные работы (лифт)', 'вес \u2264 25 кг', null, 0, true, false);
     } else {
-      const coef = fmtC(weight / 25);
+      const coef = fc(weight / 25);
       const cost = Math.round(coef * 300);
-      html += lineHtml('Подъём на лифте', `${weight} ÷ 25 = ${coef} → ${coef} × 300 ₽`, coef, cost, false, false);
+      html += row('Погрузо-разгрузочные работы (лифт)', weight + ' \u00f7 25 = ' + coef + ' \u2192 ' + coef + ' \u00d7 300 \u20bd', coef, cost, false, false);
       total += cost;
     }
   }
 
-  // Ручной: коэф = (вес ÷ 25) × этаж
+  // Ручной: коэф = (вес / 25) × этаж
   if (useManu) {
     if (weight <= 25) {
-      html += lineHtml('Ручной подъём', 'вес ≤ 25 кг', null, 0, true, false);
+      html += row('Погрузо-разгрузочные работы (ручной)', 'вес \u2264 25 кг', null, 0, true, false);
     } else {
       const floor = parseInt(document.getElementById('manualFloor').value) || 1;
-      const wCoef = fmtC(weight / 25);
-      const coef  = fmtC(wCoef * floor);
-      const cost  = Math.round(coef * 300);
-      html += lineHtml('Ручной подъём', `${weight} ÷ 25 = ${wCoef} × ${floor} эт = ${coef} → ${coef} × 300 ₽`, coef, cost, false, false);
+      const wc = fc(weight / 25);
+      const coef = fc(wc * floor);
+      const cost = Math.round(coef * 300);
+      html += row('Погрузо-разгрузочные работы (ручной)', weight + ' \u00f7 25 = ' + wc + ' \u00d7 ' + floor + ' эт = ' + coef + ' \u2192 \u00d7 300 \u20bd', coef, cost, false, false);
       total += cost;
     }
   }
 
-  // Пронос: коэф = (вес ÷ 25) × (метры ÷ 15)
+  // Пронос: коэф = (вес / 25) × (метры / 15)
   if (usePron) {
     const meters = parseFloat(document.getElementById('pronosMeters').value) || 0;
     const pFloor = parseFloat(document.getElementById('pronosFloor').value) || 0;
     if (meters > 0 && weight > 25) {
-      const wCoef = fmtC(weight / 25);
-      const dCoef = fmtC(meters / 15);
-      const coef  = fmtC(wCoef * dCoef);
-      const cost  = Math.round(coef * 300);
-      html += lineHtml('Пронос', `${weight} ÷ 25 = ${wCoef} · ${meters} ÷ 15 = ${dCoef} · коэф = ${coef} → × 300 ₽`, coef, cost, false, false);
+      const wc = fc(weight / 25);
+      const dc = fc(meters / 15);
+      const coef = fc(wc * dc);
+      const cost = Math.round(coef * 300);
+      html += row('Погрузо-разгрузочные работы (пронос)', weight + '\u00f725=' + wc + ' \u00d7 ' + meters + '\u00f715=' + dc + ' \u2192 коэф=' + coef + ' \u00d7 300 \u20bd', coef, cost, false, false);
       total += cost;
       if (pFloor > 0) {
-        const fCoef = fmtC(wCoef * pFloor);
-        const fCost = Math.round(fCoef * 300);
-        html += lineHtml('Подъём при проносе', `${wCoef} × ${pFloor} эт = ${fCoef} → ${fCoef} × 300 ₽`, fCoef, fCost, false, false);
-        total += fCost;
+        const fc2 = fc(wc * pFloor);
+        const cost2 = Math.round(fc2 * 300);
+        html += row('Погрузо-разгрузочные работы (подъём при проносе)', wc + ' \u00d7 ' + pFloor + ' эт = ' + fc2 + ' \u2192 \u00d7 300 \u20bd', fc2, cost2, false, false);
+        total += cost2;
       }
     } else if (meters > 0 && weight <= 25) {
-      html += lineHtml(`Пронос ${meters} м`, 'вес ≤ 25 кг', null, 0, true, false);
+      html += row('Пронос ' + meters + ' м', 'вес \u2264 25 кг', null, 0, true, false);
     } else {
-      html += lineHtml('Пронос', 'укажите расстояние', null, 0, false, true);
+      html += row('Погрузо-разгрузочные работы (пронос)', 'укажите расстояние', null, 0, false, true);
     }
   }
 
@@ -326,24 +320,30 @@ function calculate() {
   if (useAsm) {
     const type = document.getElementById('assemblyType').value;
     if (type === 'soft') {
-      html += lineHtml('Сборка (мягкая/столы/стулья)', '', null, 500, false, false);
+      html += row('Сборочные работы (мягкая/столы/стулья)', 'мин. 500 \u20bd', null, 500, false, false);
       total += 500;
     } else {
       const retail = parseFloat(document.getElementById('retailPrice').value) || 0;
       const cost = Math.max(500, Math.round(retail * 0.05));
-      html += lineHtml(`Сборка корпусной`, `5% от ${fmt(retail)}, мин. 500 ₽`, null, cost, false, false);
+      html += row('Сборочные работы (корпусная)', '5% от ' + fmt(retail) + ', мин. 500 \u20bd', null, cost, false, false);
       total += cost;
     }
   }
 
-  html += `<div class="total-row"><span class="total-label">Итого</span><span class="total-amount">${fmt(total)}</span></div>`;
+  html += '<div class="total-row"><span class="total-label">Итого</span><span class="total-amount">' + fmt(total) + '</span></div>';
   document.getElementById('breakdown').innerHTML = html;
 }
 
 function resetForm() {
-  ['volume','weight','mkad','manualFloor','pronosMeters','pronosFloor','retailPrice'].forEach(id => { const e = document.getElementById(id); if(e) e.value=''; });
-  ['useLift','useManual','usePronos','useAssembly'].forEach(id => { document.getElementById(id).checked = false; });
-  ['manualSub','pronosSub','assemblySub'].forEach(id => { document.getElementById(id).classList.remove('visible'); });
+  ['volume','weight','mkad','manualFloor','pronosMeters','pronosFloor','retailPrice'].forEach(function(id) {
+    var e = document.getElementById(id); if(e) e.value = '';
+  });
+  ['useLift','useManual','usePronos','useAssembly'].forEach(function(id) {
+    document.getElementById(id).checked = false;
+  });
+  ['manualSub','pronosSub','assemblySub'].forEach(function(id) {
+    document.getElementById(id).classList.remove('visible');
+  });
   document.getElementById('corpusField').style.display = 'none';
   document.getElementById('breakdown').innerHTML = '<div class="empty-state">Введите объём заказа</div>';
 }
